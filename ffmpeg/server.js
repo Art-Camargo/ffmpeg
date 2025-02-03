@@ -12,14 +12,12 @@ const server = http.createServer((req, res) => {
     '-i', '/dev/video0',
     '-vcodec', 'libvpx',
     '-b:v', '1M',
-    '-f', 'webm',  // Formato WebM
+    '-f', 'webm',
     'pipe:1'
   ], { stdio: ['pipe', 'pipe', 'pipe'] });
-  // Captura e exibe logs do FFmpeg
   ffmpegProcess.stderr.on('data', (data) => {
     console.error(`FFmpeg erro: ${data}`);
   });
-
   ffmpegProcess.stdout.on('data', () => {
     console.log('Enviando vídeo para o cliente...');
   });
@@ -27,11 +25,7 @@ const server = http.createServer((req, res) => {
   ffmpegProcess.on('close', (code, signal) => {
     console.log(`FFmpeg encerrado com código ${code} e sinal ${signal}`);
   });
-
-  // Envia o vídeo para o cliente
   ffmpegProcess.stdout.pipe(res);
-
-  // Mata o processo do FFmpeg quando a conexão for fechada
   req.on('close', () => {
     console.log('Conexão encerrada. Matando FFmpeg...');
     ffmpegProcess.kill();
