@@ -10,11 +10,16 @@ const server = http.createServer((req, res) => {
     '-re',
     '-f', 'v4l2',
     '-i', '/dev/video0',
+    '-vf', 'scale=640:360',
+    '-r', '15',
     '-vcodec', 'libvpx',
-    '-b:v', '1M',
+    '-deadline', 'realtime',
+    '-b:v', '500k',
     '-f', 'webm',
     'pipe:1'
   ], { stdio: ['pipe', 'pipe', 'pipe'] });
+
+
   ffmpegProcess.stderr.on('data', (data) => {
     console.error(`FFmpeg erro: ${data}`);
   });
