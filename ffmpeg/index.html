@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Stream</title>
+  </head>
+  <body>
+    <h1>Transmissão ao Vivo</h1>
+    <video id="stream" controls autoplay></video>
+
+    <script>
+      const video = document.getElementById("stream");
+      video.src = "http://localhost:3000";
+      video.type = "video/webm";
+    </script>
+  </body>
+</html>
